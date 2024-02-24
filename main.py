@@ -7,10 +7,11 @@ class TicTacToe:
             ['   ', ' | ', '   ', ' | ', '   ']
         ]
         self.borders = ['---------------', '---------------', '']
-
+        self.current_player = 'X'
         while True:
+            self.current_player = 'O' if self.current_player == 'X' else 'X'
             self.print_board()
-            self.make_move()
+            self.make_move(self.current_player)
 
     def make_move(self, char):
         pos = input('Enter position of X in r,c form: ')
