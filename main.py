@@ -1,17 +1,21 @@
 
 class TicTacToe:
     def __init__(self) -> None:
-        self.board = [['   ', ' | ', '   ', ' | ', '   '], ['   ', ' | ', '   ', ' | ', '   '], ['   ', ' | ', '   ', ' | ', '   ']]
+        self.board = [
+            ['   ', ' | ', '   ', ' | ', '   '], 
+            ['   ', ' | ', '   ', ' | ', '   '], 
+            ['   ', ' | ', '   ', ' | ', '   ']
+        ]
         self.borders = ['---------------', '---------------', '']
 
-        self.print_board()
-        self.make_move()
+        while True:
+            self.print_board()
+            self.make_move()
 
-    def make_move(self):
+    def make_move(self, char):
         pos = input('Enter position of X in r,c form: ')
         r, c = map(int, pos.split(','))
-        self.board[r-1][2*c - 2] = ' X '
-        self.print_board()
+        self.board[r-1][2*c - 2] = f' {char} '
 
     def print_board(self):
         for i in range(3):
