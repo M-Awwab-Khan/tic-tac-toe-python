@@ -19,13 +19,14 @@ class TicTacToe:
             self.make_move(self.current_player)
 
     def make_move(self, char):
-        pos = input('Enter position of X in r,c form: ')
+        pos = input(f'Enter position of {char} in r,c form: ')
         r, c = map(int, pos.split(','))
         if self.board[r-1][2*c - 2] == '   ':
             self.board[r-1][2*c - 2] = f' {char} '
             self.player_positions[char][r-1, c-1] = 1
             # print(self.player_positions[char]) # for debugging
             if self.check_winner(self.current_player):
+                self.print_board()
                 print(f"{self.current_player} has won this game.")
                 self.game_is_on = False
             self.current_player = 'O' if self.current_player == 'X' else 'X'
