@@ -22,7 +22,8 @@ class TicTacToe:
         r, c = map(int, pos.split(','))
         if self.board[r-1][2*c - 2] == '   ':
             self.board[r-1][2*c - 2] = f' {char} '
-            self.player_positions[char][r-1, 2*c - 2] = 1
+            self.player_positions[char][r-1, c-1] = 1
+            print(self.player_positions[char]) # for debugging
             self.current_player = 'O' if self.current_player == 'X' else 'X'
         else:
             print('Position Already Marked!')
