@@ -13,7 +13,8 @@ class TicTacToe:
         }
         self.borders = ['---------------', '---------------', '']
         self.current_player = 'X'
-        while True:
+        self.game_is_on = True
+        while self.game_is_on:
             self.print_board()
             self.make_move(self.current_player)
 
@@ -23,8 +24,10 @@ class TicTacToe:
         if self.board[r-1][2*c - 2] == '   ':
             self.board[r-1][2*c - 2] = f' {char} '
             self.player_positions[char][r-1, c-1] = 1
-            print(self.player_positions[char]) # for debugging
-            print(self.check_winner(self.current_player))
+            # print(self.player_positions[char]) # for debugging
+            if self.check_winner(self.current_player):
+                print(f"{self.current_player} has won this game.")
+                self.game_is_on = False
             self.current_player = 'O' if self.current_player == 'X' else 'X'
         else:
             print('Position Already Marked!')
