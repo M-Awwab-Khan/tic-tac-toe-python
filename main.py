@@ -1,3 +1,4 @@
+import numpy as np
 
 class TicTacToe:
     def __init__(self) -> None:
@@ -6,6 +7,10 @@ class TicTacToe:
             ['   ', ' | ', '   ', ' | ', '   '], 
             ['   ', ' | ', '   ', ' | ', '   ']
         ]
+        self.player_positions = {
+            'O': np.zeros((3, 3)),
+            'X': np.zeros((3, 3))
+        }
         self.borders = ['---------------', '---------------', '']
         self.current_player = 'X'
         while True:
@@ -17,6 +22,7 @@ class TicTacToe:
         r, c = map(int, pos.split(','))
         if self.board[r-1][2*c - 2] == '   ':
             self.board[r-1][2*c - 2] = f' {char} '
+            self.player_positions[char][r-1, 2*c - 2] = 1
             self.current_player = 'O' if self.current_player == 'X' else 'X'
         else:
             print('Position Already Marked!')
