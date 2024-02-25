@@ -2,41 +2,37 @@ import numpy as np
 
 class TicTacToe:
     def __init__(self) -> None:
-        p1 = input('Player 1 name: ')
+        self.p1 = input('Player 1 name: ')
         p1_char = input('Player 1 character: ')
-        p2 = input('Player 2 name: ')
+        self.p2 = input('Player 2 name: ')
         p2_char = input('Player 2 character: ')
         self.board = [
             ['   ', ' | ', '   ', ' | ', '   '], 
             ['   ', ' | ', '   ', ' | ', '   '], 
             ['   ', ' | ', '   ', ' | ', '   ']
         ]
-        self.player_and_chars = {
-            p1: [p1_char, np.zeros((3, 3))],
-            p2: [p2_char, np.zeros((3, 3))]
-        }
-        self.player_positions = {
-            'O': np.zeros((3, 3)),
-            'X': np.zeros((3, 3))
+        self.player_chars_positions = {
+            self.p1: [p1_char, np.zeros((3, 3))],
+            self.p2: [p2_char, np.zeros((3, 3))]
         }
         self.borders = ['---------------', '---------------', '']
-        self.current_player = 'X'
+        self.current_player = self.p1
         self.game_is_on = True
         while self.game_is_on:
             self.print_board()
             self.make_move(self.current_player)
 
-    def make_move(self, char):
-        pos = input(f'Enter position of {char} in r,c form: ')
+    def make_move(self, cp):
+        pos = input(f'{cp}, place {self.player_chars_positions[cp][0]} in r,c form: ')
         try:
             r, c = map(int, pos.split(','))
         except Exception as e:
             print('Invalid position. Please follow the format.')
         else:
             if self.board[r-1][2*c - 2] == '   ':
-                self.board[r-1][2*c - 2] = f' {char} '
-                self.player_positions[char][r-1, c-1] = 1
-                # print(self.player_positions[char]) # for debugging
+                self.board[r-1][2*c - 2] = f' {cp} '
+                self.player_chars_positions[cp][1][r-1, c-1] = 1
+                # print(self.player_positions[cp]) # for debugging
                 if self.check_winner(self.current_player):
                     self.print_board()
                     print(f"{self.current_player} has won this game.")
@@ -47,7 +43,7 @@ class TicTacToe:
                     print(f"Draw")
                     self.game_is_on = False
                     return
-                self.current_player = 'O' if self.current_player == 'X' else 'X'
+                self.current_player = self.p1 if self.current_player == self.p2 else self.p2
             else:
                 print('Position Already Marked!')
 
@@ -58,22 +54,24 @@ class TicTacToe:
             print()
             print(self.borders[i])
     
-    def check_winner(self, char):
+    def check_winner(self, cp):
         winner = None
-        for row_sum in self.player_positions[char].sum(axis=1):
+        for row_sum in self.player_cps_positions[cp][1].sum(axis=1):
             if row_sum == 3:
-                winner = char
-        for col_sum in self.player_positions[char].sum(axis=0):
+                winner = cp
+        for col_sum in self.player_positions[cp][1].sum(axis=0):
             if col_sum == 3:
-                winner = char
-        if np.trace(self.player_positions[char]) == 3:
-            winner = char
-        elif np.trace(np.fliplr(self.player_positions[char])) == 3:
-            winner = char
+                winner = cp
+        if np.trace(self.player_positions[cp][1]) == 3:
+            winner = cp
+        elif np.trace(np.fliplr(self.player_positions[cp][1])) == 3:
+            winner = cp
         return winner
     
     def check_draw(self):
-        return list(self.player_positions.values())[0].sum() + list(self.player_positions.values())[1].sum() == 9
-
+        s = 0
+        for cp, info in self.player_chars_positions:
+            s += info[1].sum()
+        return s == 9
 if __name__ == '__main__':
     game = TicTacToe()
