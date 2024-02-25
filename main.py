@@ -29,6 +29,12 @@ class TicTacToe:
                 self.print_board()
                 print(f"{self.current_player} has won this game.")
                 self.game_is_on = False
+                return
+            if self.check_draw():
+                self.print_board()
+                print(f"Draw")
+                self.game_is_on = False
+                return
             self.current_player = 'O' if self.current_player == 'X' else 'X'
         else:
             print('Position Already Marked!')
@@ -53,7 +59,9 @@ class TicTacToe:
         elif np.trace(np.fliplr(self.player_positions[char])) == 3:
             winner = char
         return winner
-
+    
+    def check_draw(self):
+        return list(self.player_positions.values())[0].sum() + list(self.player_positions.values())[1].sum() == 9
 
 if __name__ == '__main__':
     game = TicTacToe()
