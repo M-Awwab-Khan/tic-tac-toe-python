@@ -20,24 +20,28 @@ class TicTacToe:
 
     def make_move(self, char):
         pos = input(f'Enter position of {char} in r,c form: ')
-        r, c = map(int, pos.split(','))
-        if self.board[r-1][2*c - 2] == '   ':
-            self.board[r-1][2*c - 2] = f' {char} '
-            self.player_positions[char][r-1, c-1] = 1
-            # print(self.player_positions[char]) # for debugging
-            if self.check_winner(self.current_player):
-                self.print_board()
-                print(f"{self.current_player} has won this game.")
-                self.game_is_on = False
-                return
-            if self.check_draw():
-                self.print_board()
-                print(f"Draw")
-                self.game_is_on = False
-                return
-            self.current_player = 'O' if self.current_player == 'X' else 'X'
+        try:
+            r, c = map(int, pos.split(','))
+        except Exception as e:
+            print('Invalid position. Please follow the format.')
         else:
-            print('Position Already Marked!')
+            if self.board[r-1][2*c - 2] == '   ':
+                self.board[r-1][2*c - 2] = f' {char} '
+                self.player_positions[char][r-1, c-1] = 1
+                # print(self.player_positions[char]) # for debugging
+                if self.check_winner(self.current_player):
+                    self.print_board()
+                    print(f"{self.current_player} has won this game.")
+                    self.game_is_on = False
+                    return
+                if self.check_draw():
+                    self.print_board()
+                    print(f"Draw")
+                    self.game_is_on = False
+                    return
+                self.current_player = 'O' if self.current_player == 'X' else 'X'
+            else:
+                print('Position Already Marked!')
 
     def print_board(self):
         for i in range(3):
