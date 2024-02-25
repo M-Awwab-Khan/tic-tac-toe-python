@@ -2,11 +2,19 @@ import numpy as np
 
 class TicTacToe:
     def __init__(self) -> None:
+        p1 = input('Player 1 name: ')
+        p1_char = input('Player 1 character: ')
+        p2 = input('Player 2 name: ')
+        p2_char = input('Player 2 character: ')
         self.board = [
             ['   ', ' | ', '   ', ' | ', '   '], 
             ['   ', ' | ', '   ', ' | ', '   '], 
             ['   ', ' | ', '   ', ' | ', '   ']
         ]
+        self.player_and_chars = {
+            p1: [p1_char, np.zeros((3, 3))],
+            p2: [p2_char, np.zeros((3, 3))]
+        }
         self.player_positions = {
             'O': np.zeros((3, 3)),
             'X': np.zeros((3, 3))
