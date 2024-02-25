@@ -30,9 +30,9 @@ class TicTacToe:
             print('Invalid position. Please follow the format.')
         else:
             if self.board[r-1][2*c - 2] == '   ':
-                self.board[r-1][2*c - 2] = f' {cp} '
+                self.board[r-1][2*c - 2] = f' {self.player_chars_positions[cp][0]} '
                 self.player_chars_positions[cp][1][r-1, c-1] = 1
-                # print(self.player_positions[cp]) # for debugging
+                # print(self.player_chars_positions[cp]) # for debugging
                 if self.check_winner(self.current_player):
                     self.print_board()
                     print(f"{self.current_player} has won this game.")
@@ -56,21 +56,21 @@ class TicTacToe:
     
     def check_winner(self, cp):
         winner = None
-        for row_sum in self.player_cps_positions[cp][1].sum(axis=1):
+        for row_sum in self.player_chars_positions[cp][1].sum(axis=1):
             if row_sum == 3:
                 winner = cp
-        for col_sum in self.player_positions[cp][1].sum(axis=0):
+        for col_sum in self.player_chars_positions[cp][1].sum(axis=0):
             if col_sum == 3:
                 winner = cp
-        if np.trace(self.player_positions[cp][1]) == 3:
+        if np.trace(self.player_chars_positions[cp][1]) == 3:
             winner = cp
-        elif np.trace(np.fliplr(self.player_positions[cp][1])) == 3:
+        elif np.trace(np.fliplr(self.player_chars_positions[cp][1])) == 3:
             winner = cp
         return winner
     
     def check_draw(self):
         s = 0
-        for cp, info in self.player_chars_positions:
+        for cp, info in self.player_chars_positions.items():
             s += info[1].sum()
         return s == 9
 if __name__ == '__main__':
